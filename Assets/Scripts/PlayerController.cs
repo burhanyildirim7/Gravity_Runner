@@ -93,37 +93,43 @@ public class PlayerController : MonoBehaviour
 			{
                 isEnableForSwipe = false;
                 StartCoroutine(DlayAndEnabledSwipe());
+                MoveRT();
                 Debug.Log("RT");
 			}
             else if ((lastMousePosY - firstMousePosY) <- swipeControlLimit && (lastMousePosX - firstMousePosX) > swipeControlLimit / 2) // RB
             {
                 isEnableForSwipe = false;
                 StartCoroutine(DlayAndEnabledSwipe());
+                MoveRB();
                 Debug.Log("RB");
             }
             else if ((lastMousePosY - firstMousePosY) < -swipeControlLimit && (lastMousePosX - firstMousePosX) <- swipeControlLimit / 2) // LB
             {
                 isEnableForSwipe = false;
                 StartCoroutine(DlayAndEnabledSwipe());
+                MoveLB();
                 Debug.Log("LB");
             }
             else if ((lastMousePosY - firstMousePosY) > swipeControlLimit && (lastMousePosX - firstMousePosX) < -swipeControlLimit / 2) // LT
             {
                 isEnableForSwipe = false;
                 StartCoroutine(DlayAndEnabledSwipe());
+                MoveLT();
                 Debug.Log("LT");
             }
             else if ((lastMousePosY - firstMousePosY) > swipeControlLimit && Mathf.Abs(lastMousePosX - firstMousePosX) < swipeControlLimit / 2) // T
             {
                 isEnableForSwipe = false;
                 StartCoroutine(DlayAndEnabledSwipe());
+                MoveT();
                 Debug.Log("T");
             }
-            else if ((lastMousePosY - firstMousePosY) <- swipeControlLimit && Mathf.Abs(lastMousePosX - firstMousePosX) < swipeControlLimit / 2) // T
+            else if ((lastMousePosY - firstMousePosY) <- swipeControlLimit && Mathf.Abs(lastMousePosX - firstMousePosX) < swipeControlLimit / 2) // B
             {
                 isEnableForSwipe = false;
                 StartCoroutine(DlayAndEnabledSwipe());
-                Debug.Log("T");
+                MoveB();
+                Debug.Log("B");
             }     
         }
         else if (Input.GetMouseButton(0) && isEnableForSwipe && LevelPlatformCount == 4)
@@ -135,25 +141,29 @@ public class PlayerController : MonoBehaviour
             {
                 isEnableForSwipe = false;
                 StartCoroutine(DlayAndEnabledSwipe());
-                Debug.Log("RT");
+                MoveT();
+                Debug.Log("T");
             }
             else if ((lastMousePosY - firstMousePosY) < -swipeControlLimit && Mathf.Abs(lastMousePosX - firstMousePosX) < swipeControlLimit) // B
             {
                 isEnableForSwipe = false;
                 StartCoroutine(DlayAndEnabledSwipe());
-                Debug.Log("RB");
+                MoveB();
+                Debug.Log("B");
             }
             else if (Mathf.Abs(lastMousePosY - firstMousePosY) < swipeControlLimit && (lastMousePosX - firstMousePosX) > swipeControlLimit ) // R
             {
                 isEnableForSwipe = false;
                 StartCoroutine(DlayAndEnabledSwipe());
-                Debug.Log("LB");
+                MoveR();
+                Debug.Log("R");
             }
             else if (Mathf.Abs(lastMousePosY - firstMousePosY) < swipeControlLimit && (lastMousePosX - firstMousePosX) < -swipeControlLimit) // L
             {
                 isEnableForSwipe = false;
                 StartCoroutine(DlayAndEnabledSwipe());
-                Debug.Log("LT");
+                MoveL();
+                Debug.Log("L");
             }
         }
         else if (Input.GetMouseButton(0) && isEnableForSwipe && LevelPlatformCount == 2)
@@ -194,12 +204,49 @@ public class PlayerController : MonoBehaviour
     private void MoveT()
 	{
         transform.DOLocalMove(new Vector3(0,10,0),.5f);
+        transform.DORotate(new Vector3(0,0,180),.5f);
 	}
 
     private void MoveB()
 	{
         transform.DOLocalMove(Vector3.zero, .5F);
-	}
+        transform.DORotate(new Vector3(0, 0,0), .5f);
+    }
+
+    private void MoveR()
+	{
+        transform.DOLocalMove(new Vector3(5, 5, 0), .5f);
+        transform.DORotate(new Vector3(0, 0, 90), .5f);
+    }
+
+    private void MoveL()
+	{
+        transform.DOLocalMove(new Vector3(-5, 5, 0), .5f);
+        transform.DORotate(new Vector3(0, 0, -90), .5f);
+    }
+
+    private void MoveLB()
+    {
+        transform.DOLocalMove(new Vector3(-4.8F, 2.5F, 0), .5f);
+        transform.DORotate(new Vector3(0, 0, -60), .5f);
+    }
+    private void MoveLT()
+    {
+        transform.DOLocalMove(new Vector3(-4.53F, 7.9F, 0), .5f);
+        transform.DORotate(new Vector3(0, 0, -120), .5f);
+    }
+
+    private void MoveRT()
+    {
+        transform.DOLocalMove(new Vector3(4.7F, 7.9F, 0), .5f);
+        transform.DORotate(new Vector3(0, 0, 120), .5f);
+    }
+
+    private void MoveRB()
+    {
+        transform.DOLocalMove(new Vector3(4.7F, 2.2F, 0), .5f);
+        transform.DORotate(new Vector3(0, 0, 60), .5f);
+    }
 
     private void MoveHorizontal()
     {
