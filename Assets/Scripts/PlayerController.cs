@@ -8,8 +8,15 @@ using DG.Tweening;
 
 public class PlayerController : MonoBehaviour
 {
-    public static PlayerController instance;
-    public int collectibleDegeri;
+	#region SINGLETON
+	public static PlayerController instance;
+    private void Awake()
+    {
+        if (instance == null) instance = this;
+        else Destroy(this);
+    }
+	#endregion
+	public int collectibleDegeri;
     public bool xVarMi = true;
     public bool collectibleVarMi = true;
     private bool left, right, isEnableForSwipe;
@@ -19,19 +26,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float horizontalRadius = 3;
     private float screenWidth, screenHeight;
     private float lastMousePosX, firstMousePosX, lastMousePosY, firstMousePosY;
-    public GameObject model;
+    public GameObject model, cameraTarget;
     public GameObject controlAnimationPanel, leftContolPanel, rightControlPanel, slideControlPanel;
     private bool isFirstLevel;
     public int LevelPlatformCount = 6;
+    public Animator PlayerAnimator;
 
-    [SerializeField] private ParticleSystem _tozEfekti;
-
-
-    private void Awake()
-    {
-        if (instance == null) instance = this;
-        else Destroy(this);
-    }
 
     void Start()
     {
@@ -40,6 +40,7 @@ public class PlayerController : MonoBehaviour
         DOTween.Init();
         screenWidth = Screen.width / 2;
         screenWidth = Screen.height / 2;
+        RunAnim();
     }
 
     private void Update()
@@ -201,143 +202,66 @@ public class PlayerController : MonoBehaviour
         isEnableForSwipe = true;
     }
 
-    private void MoveT()
+
+	#region MOVEMENTS
+	private void MoveT()
 	{
+        JumpAnim();
         transform.DOLocalMove(new Vector3(0,10,0),.5f);
         transform.DORotate(new Vector3(0,0,180),.5f);
 	}
 
     private void MoveB()
 	{
+        JumpAnim();
         transform.DOLocalMove(Vector3.zero, .5F);
         transform.DORotate(new Vector3(0, 0,0), .5f);
     }
 
     private void MoveR()
 	{
+        JumpAnim();
         transform.DOLocalMove(new Vector3(5, 5, 0), .5f);
         transform.DORotate(new Vector3(0, 0, 90), .5f);
     }
 
     private void MoveL()
 	{
+        JumpAnim();
         transform.DOLocalMove(new Vector3(-5, 5, 0), .5f);
         transform.DORotate(new Vector3(0, 0, -90), .5f);
     }
 
     private void MoveLB()
     {
+        JumpAnim();
         transform.DOLocalMove(new Vector3(-4.8F, 2.5F, 0), .5f);
         transform.DORotate(new Vector3(0, 0, -60), .5f);
     }
     private void MoveLT()
     {
+        JumpAnim();
         transform.DOLocalMove(new Vector3(-4.53F, 7.9F, 0), .5f);
         transform.DORotate(new Vector3(0, 0, -120), .5f);
     }
 
     private void MoveRT()
     {
+        JumpAnim();
         transform.DOLocalMove(new Vector3(4.7F, 7.9F, 0), .5f);
         transform.DORotate(new Vector3(0, 0, 120), .5f);
     }
 
     private void MoveRB()
     {
+        JumpAnim();
         transform.DOLocalMove(new Vector3(4.7F, 2.2F, 0), .5f);
         transform.DORotate(new Vector3(0, 0, 60), .5f);
     }
 
-    private void MoveHorizontal()
-    {
-        //if (isFirstLevel)
-        //{
-        //    GetComponentInChildren<Animator>().speed = 1f;
-        //    KarakterPaketiMovement.instance._speed = 8;
-        //    controlAnimationPanel.SetActive(false);
-        //    rightControlPanel.SetActive(false);
-        //    leftContolPanel.SetActive(false);
-        //    slideControlPanel.SetActive(false);
-
-        //}
-
-        if (right)
-        {
-            if (transform.position.x > horizontalRadius - 1)
-            {
-                isEnableForSwipe = true;
-                return;
-            }
-            else if (transform.position.x > -1)
-            {
-                _tozEfekti.Play();
-                JumpAnim();
-                //transform.DOMoveX(horizontalRadius, playerSwipeSpeed).OnComplete(() =>
-                //{
-                //    isEnableForSwipe = true;
-                //    return;
-                //});
-
-            }
-            else if (transform.position.x < -1)
-            {
-                _tozEfekti.Play();
-                JumpAnim();
-               // transform.DOMoveX(0, playerSwipeSpeed).OnComplete(() =>
-                //{
-                //    isEnableForSwipe = true;
-                //    return;
-                //});
-            }
-        }
-        else if (left)
-        {
-            if (transform.position.x < -horizontalRadius + 1)
-            {
-                isEnableForSwipe = true;
-                return;
-            }
-            else if (transform.position.x < 1)
-            {
-                _tozEfekti.Play();
-                JumpAnim();
-                //transform.DOMoveX(-horizontalRadius, playerSwipeSpeed).OnComplete(() =>
-                //{
-                //    isEnableForSwipe = true;
-                //    return;
-                //});
-            }
-
-            else if (transform.position.x > 1)
-            {
-                _tozEfekti.Play();
-                JumpAnim();
-               // transform.DOMoveX(0, playerSwipeSpeed).OnComplete(() =>
-                //{
-                //    isEnableForSwipe = true;
-                //    return;
-                //});
-            }
-
-        }
-    }
-
-    private void SlideEvents()
-    {
-        // collider küçülecek... kayma animasyonu yapılacak... 
-        if (isFirstLevel)
-        {
-            GetComponentInChildren<Animator>().speed = 1f;
-            //KarakterPaketiMovement.instance._speed = 8;
-            controlAnimationPanel.SetActive(false);
-            rightControlPanel.SetActive(false);
-            leftContolPanel.SetActive(false);
-            slideControlPanel.SetActive(false);
-
-        }
-        _tozEfekti.Play();
-        SlideAnim();
-    }
+	#endregion 
+	
+  
 
     /// <summary>
     /// Playerin collider olaylari.. collectible, engel veya finish noktasi icin. Burasi artirilabilir.
@@ -445,43 +369,43 @@ public class PlayerController : MonoBehaviour
 
     private void RunAnim()
     {
-        GetComponentInChildren<Animator>().SetTrigger("run");
+        PlayerAnimator.SetTrigger("run");
         StartCoroutine(DelayAndResetAnims());
     }
 
     private void IdleAnim()
     {
-        GetComponentInChildren<Animator>().SetTrigger("idle");
+        PlayerAnimator.SetTrigger("idle");
         StartCoroutine(DelayAndResetAnims());
     }
 
     private void JumpAnim()
     {
-        GetComponentInChildren<Animator>().SetTrigger("jump");
+        PlayerAnimator.SetTrigger("jump");
         StartCoroutine(DelayAndResetAnims());
     }
 
     private void SlideAnim()
     {
-        GetComponentInChildren<Animator>().SetTrigger("slide");
+        PlayerAnimator.SetTrigger("slide");
         StartCoroutine(DelayAndResetAnims());
     }
 
     private void CrashAnim()
     {
-        GetComponentInChildren<Animator>().SetTrigger("struggle");
+        PlayerAnimator.SetTrigger("struggle");
         StartCoroutine(DelayAndResetAnims());
     }
 
     private void RopeJumpAnim()
     {
-        GetComponentInChildren<Animator>().SetTrigger("ropejump");
+        PlayerAnimator.SetTrigger("ropejump");
         StartCoroutine(DelayAndResetAnims());
     }
 
     private void RopePosAnim()
     {
-        GetComponentInChildren<Animator>().SetTrigger("throw");
+        PlayerAnimator.SetTrigger("throw");
         StartCoroutine(DelayAndResetAnims());
     }
 
@@ -489,14 +413,14 @@ public class PlayerController : MonoBehaviour
     private IEnumerator DelayAndResetAnims()
     {
         yield return new WaitForSeconds(.05f);
-        GetComponentInChildren<Animator>().ResetTrigger("idle");
-        GetComponentInChildren<Animator>().ResetTrigger("jump");
-        GetComponentInChildren<Animator>().ResetTrigger("run");
-        GetComponentInChildren<Animator>().ResetTrigger("slide");
-        GetComponentInChildren<Animator>().ResetTrigger("struggle");
-        GetComponentInChildren<Animator>().ResetTrigger("ropejump");
-        GetComponentInChildren<Animator>().ResetTrigger("ropepos");
-        GetComponentInChildren<Animator>().ResetTrigger("throw");
+        PlayerAnimator.ResetTrigger("idle");
+        PlayerAnimator.ResetTrigger("jump");
+        PlayerAnimator.ResetTrigger("run");
+        //GetComponentInChildren<Animator>().ResetTrigger("slide");
+        //GetComponentInChildren<Animator>().ResetTrigger("struggle");
+        //GetComponentInChildren<Animator>().ResetTrigger("ropejump");
+        //GetComponentInChildren<Animator>().ResetTrigger("ropepos");
+        //GetComponentInChildren<Animator>().ResetTrigger("throw");
     }
 
     #endregion
