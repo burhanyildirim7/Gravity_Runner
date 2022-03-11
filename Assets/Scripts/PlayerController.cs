@@ -92,42 +92,36 @@ public class PlayerController : MonoBehaviour
 
             if((lastMousePosY - firstMousePosY) > swipeControlLimit && (lastMousePosX - firstMousePosX) > swipeControlLimit / 2) // RT
 			{
-                isEnableForSwipe = false;
                 StartCoroutine(DlayAndEnabledSwipe());
                 MoveRT();
                 Debug.Log("RT");
 			}
             else if ((lastMousePosY - firstMousePosY) <- swipeControlLimit && (lastMousePosX - firstMousePosX) > swipeControlLimit / 2) // RB
             {
-                isEnableForSwipe = false;
                 StartCoroutine(DlayAndEnabledSwipe());
                 MoveRB();
                 Debug.Log("RB");
             }
             else if ((lastMousePosY - firstMousePosY) < -swipeControlLimit && (lastMousePosX - firstMousePosX) <- swipeControlLimit / 2) // LB
             {
-                isEnableForSwipe = false;
                 StartCoroutine(DlayAndEnabledSwipe());
                 MoveLB();
                 Debug.Log("LB");
             }
             else if ((lastMousePosY - firstMousePosY) > swipeControlLimit && (lastMousePosX - firstMousePosX) < -swipeControlLimit / 2) // LT
             {
-                isEnableForSwipe = false;
                 StartCoroutine(DlayAndEnabledSwipe());
                 MoveLT();
                 Debug.Log("LT");
             }
             else if ((lastMousePosY - firstMousePosY) > swipeControlLimit && Mathf.Abs(lastMousePosX - firstMousePosX) < swipeControlLimit / 2) // T
             {
-                isEnableForSwipe = false;
                 StartCoroutine(DlayAndEnabledSwipe());
                 MoveT();
                 Debug.Log("T");
             }
             else if ((lastMousePosY - firstMousePosY) <- swipeControlLimit && Mathf.Abs(lastMousePosX - firstMousePosX) < swipeControlLimit / 2) // B
             {
-                isEnableForSwipe = false;
                 StartCoroutine(DlayAndEnabledSwipe());
                 MoveB();
                 Debug.Log("B");
@@ -140,28 +134,24 @@ public class PlayerController : MonoBehaviour
 
             if ((lastMousePosY - firstMousePosY) > swipeControlLimit && Mathf.Abs(lastMousePosX - firstMousePosX) < swipeControlLimit) // T
             {
-                isEnableForSwipe = false;
                 StartCoroutine(DlayAndEnabledSwipe());
                 MoveT();
                 Debug.Log("T");
             }
             else if ((lastMousePosY - firstMousePosY) < -swipeControlLimit && Mathf.Abs(lastMousePosX - firstMousePosX) < swipeControlLimit) // B
             {
-                isEnableForSwipe = false;
                 StartCoroutine(DlayAndEnabledSwipe());
                 MoveB();
                 Debug.Log("B");
             }
             else if (Mathf.Abs(lastMousePosY - firstMousePosY) < swipeControlLimit && (lastMousePosX - firstMousePosX) > swipeControlLimit ) // R
             {
-                isEnableForSwipe = false;
                 StartCoroutine(DlayAndEnabledSwipe());
                 MoveR();
                 Debug.Log("R");
             }
             else if (Mathf.Abs(lastMousePosY - firstMousePosY) < swipeControlLimit && (lastMousePosX - firstMousePosX) < -swipeControlLimit) // L
             {
-                isEnableForSwipe = false;
                 StartCoroutine(DlayAndEnabledSwipe());
                 MoveL();
                 Debug.Log("L");
@@ -174,14 +164,13 @@ public class PlayerController : MonoBehaviour
 
             if ((lastMousePosY - firstMousePosY) > swipeControlLimit) // T
             {
-                isEnableForSwipe = false;
                 StartCoroutine(DlayAndEnabledSwipe());
                 MoveT();
                 Debug.Log("T");
             }
             else if ((lastMousePosY - firstMousePosY) < -swipeControlLimit) // B
             {
-                isEnableForSwipe = false;
+                
                 StartCoroutine(DlayAndEnabledSwipe());
                 MoveB();
                 Debug.Log("B");
@@ -207,6 +196,8 @@ public class PlayerController : MonoBehaviour
 	private void MoveT()
 	{
         JumpAnim();
+        isEnableForSwipe = false;
+        cameraTarget.transform.DOLocalMove(new Vector3(0,6f,0),.5f);
         transform.DOLocalMove(new Vector3(0,10,0),.5f);
         transform.DORotate(new Vector3(0,0,180),.5f);
 	}
@@ -214,6 +205,8 @@ public class PlayerController : MonoBehaviour
     private void MoveB()
 	{
         JumpAnim();
+        isEnableForSwipe = false;
+        cameraTarget.transform.DOLocalMove(new Vector3(0, 4f, 0), .5f);
         transform.DOLocalMove(Vector3.zero, .5F);
         transform.DORotate(new Vector3(0, 0,0), .5f);
     }
@@ -221,6 +214,8 @@ public class PlayerController : MonoBehaviour
     private void MoveR()
 	{
         JumpAnim();
+        isEnableForSwipe = false;
+        cameraTarget.transform.DOLocalMove(new Vector3(1f, 5, 0), .5f);
         transform.DOLocalMove(new Vector3(5, 5, 0), .5f);
         transform.DORotate(new Vector3(0, 0, 90), .5f);
     }
@@ -228,6 +223,8 @@ public class PlayerController : MonoBehaviour
     private void MoveL()
 	{
         JumpAnim();
+        isEnableForSwipe = false;
+        cameraTarget.transform.DOLocalMove(new Vector3(-1f, 5, 0), .5f);
         transform.DOLocalMove(new Vector3(-5, 5, 0), .5f);
         transform.DORotate(new Vector3(0, 0, -90), .5f);
     }
@@ -235,12 +232,16 @@ public class PlayerController : MonoBehaviour
     private void MoveLB()
     {
         JumpAnim();
+        isEnableForSwipe = false;
+        cameraTarget.transform.DOLocalMove(new Vector3(-1f, 5, 0), .5f);
         transform.DOLocalMove(new Vector3(-4.8F, 2.5F, 0), .5f);
         transform.DORotate(new Vector3(0, 0, -60), .5f);
     }
     private void MoveLT()
     {
         JumpAnim();
+        isEnableForSwipe = false;
+        cameraTarget.transform.DOLocalMove(new Vector3(-1f, 5, 0), .5f);
         transform.DOLocalMove(new Vector3(-4.53F, 7.9F, 0), .5f);
         transform.DORotate(new Vector3(0, 0, -120), .5f);
     }
@@ -248,6 +249,8 @@ public class PlayerController : MonoBehaviour
     private void MoveRT()
     {
         JumpAnim();
+        isEnableForSwipe = false;
+        cameraTarget.transform.DOLocalMove(new Vector3(1f, 5, 0), .5f);
         transform.DOLocalMove(new Vector3(4.7F, 7.9F, 0), .5f);
         transform.DORotate(new Vector3(0, 0, 120), .5f);
     }
@@ -255,6 +258,8 @@ public class PlayerController : MonoBehaviour
     private void MoveRB()
     {
         JumpAnim();
+        isEnableForSwipe = false;
+        cameraTarget.transform.DOLocalMove(new Vector3(1f, 5, 0), .5f);
         transform.DOLocalMove(new Vector3(4.7F, 2.2F, 0), .5f);
         transform.DORotate(new Vector3(0, 0, 60), .5f);
     }
@@ -302,12 +307,15 @@ public class PlayerController : MonoBehaviour
         }
         else if (other.CompareTag("finish"))
         {
-
+            other.GetComponent<Collider>().enabled = false;
             GameController.instance.isContinue = false;
+            MoveB();
             // GetComponent<Collider>().enabled = false;
-        
-
         }
+        else if (other.CompareTag("dance"))
+		{
+            
+		}
         //else if (other.CompareTag("finalx"))
         //{
         //    FinalEffectEvents(other.gameObject);
@@ -348,7 +356,8 @@ public class PlayerController : MonoBehaviour
     
         transform.parent.transform.rotation = Quaternion.Euler(0, 0, 0);
         transform.parent.transform.position = Vector3.zero;
-        transform.position = new(0, 0.4f, 0);
+        transform.position = new(0, 0f, 0);
+        transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
         GameController.instance.isContinue = false;
         GameController.instance.score = 0;
         transform.position = new Vector3(0, transform.position.y, 0);
@@ -403,9 +412,9 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(DelayAndResetAnims());
     }
 
-    private void RopePosAnim()
+    private void DanceAnim()
     {
-        PlayerAnimator.SetTrigger("throw");
+        PlayerAnimator.SetTrigger("dance");
         StartCoroutine(DelayAndResetAnims());
     }
 

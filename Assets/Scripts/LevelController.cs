@@ -9,6 +9,7 @@ public class LevelController : MonoBehaviour
 	public int levelNo, tempLevelNo, totalLevelNo; // totallevelno tum leveller bitip random level gelmeye baslayinca kullaniliyor
 	public List<GameObject> levels = new List<GameObject>();
 	private GameObject currentLevelObj;
+	public List<int> levelPlatformCounts = new();
 
 	private void Awake()
 	{
@@ -56,6 +57,7 @@ public class LevelController : MonoBehaviour
 			levelNo = totalLevelNo;
 		}
 		UIController.instance.SetLevelText(totalLevelNo);
+		PlayerController.instance.LevelPlatformCount = levelPlatformCounts[levelNo-1];
 		currentLevelObj = Instantiate(levels[levelNo - 1], Vector3.zero, Quaternion.identity);
 		Elephant.LevelStarted(totalLevelNo);
 

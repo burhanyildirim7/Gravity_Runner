@@ -11,6 +11,7 @@ TagManager:
   - finish
   - collectible
   - elmas
+  - dance
   layers:
   - Default
   - TransparentFX
