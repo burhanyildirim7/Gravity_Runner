@@ -124,8 +124,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2086278257}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 11.5, z: -1.504}
-  m_LocalScale: {x: 8, y: 1, z: 118.04218}
+  m_LocalPosition: {x: 0, y: 11.5, z: -2.0619}
+  m_LocalScale: {x: 8, y: 1, z: 116.92078}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4842857140688825628}
@@ -208,7 +208,7 @@ GameObject:
   - component: {fileID: 1970625555741861281}
   m_Layer: 0
   m_Name: Dance
-  m_TagString: finish
+  m_TagString: dance
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -318,7 +318,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1102939192941178362}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.43999994, z: 2.3999996}
+  m_LocalPosition: {x: 0, y: -0.43999994, z: 5.34}
   m_LocalScale: {x: 3, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

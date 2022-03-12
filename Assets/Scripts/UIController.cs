@@ -43,9 +43,7 @@ public class UIController : MonoBehaviour
 	// TAPTOSTART TUSUNA BASILDISINDA  --- GIRIS EKRANINDA VE LEVEL BASLARINDA
 	public void TapToStartButtonClick()
 	{
-
-		GameController.instance.isContinue = true;
-		//PlayerController.instance.SetArmForGaming();
+		PlayerController.instance.PostStartingEvents();
 		TapToStartPanel.SetActive(false);
 		GamePanel.SetActive(true);
 		SetLevelText(LevelController.instance.totalLevelNo);
@@ -120,6 +118,7 @@ public class UIController : MonoBehaviour
 
 	IEnumerator WinScreenDelay()
 	{
+		yield return new WaitForSeconds(2f);
 		WinPanel.SetActive(true);
 		winScreenScoreText.text = "0";
 		int sayac = 0;

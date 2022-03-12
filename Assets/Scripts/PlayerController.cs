@@ -40,7 +40,6 @@ public class PlayerController : MonoBehaviour
         DOTween.Init();
         screenWidth = Screen.width / 2;
         screenWidth = Screen.height / 2;
-        RunAnim();
     }
 
     private void Update()
@@ -94,37 +93,31 @@ public class PlayerController : MonoBehaviour
 			{
                 StartCoroutine(DlayAndEnabledSwipe());
                 MoveRT();
-                Debug.Log("RT");
 			}
             else if ((lastMousePosY - firstMousePosY) <- swipeControlLimit && (lastMousePosX - firstMousePosX) > swipeControlLimit / 2) // RB
             {
                 StartCoroutine(DlayAndEnabledSwipe());
                 MoveRB();
-                Debug.Log("RB");
             }
             else if ((lastMousePosY - firstMousePosY) < -swipeControlLimit && (lastMousePosX - firstMousePosX) <- swipeControlLimit / 2) // LB
             {
                 StartCoroutine(DlayAndEnabledSwipe());
                 MoveLB();
-                Debug.Log("LB");
             }
             else if ((lastMousePosY - firstMousePosY) > swipeControlLimit && (lastMousePosX - firstMousePosX) < -swipeControlLimit / 2) // LT
             {
                 StartCoroutine(DlayAndEnabledSwipe());
                 MoveLT();
-                Debug.Log("LT");
             }
             else if ((lastMousePosY - firstMousePosY) > swipeControlLimit && Mathf.Abs(lastMousePosX - firstMousePosX) < swipeControlLimit / 2) // T
             {
                 StartCoroutine(DlayAndEnabledSwipe());
                 MoveT();
-                Debug.Log("T");
             }
             else if ((lastMousePosY - firstMousePosY) <- swipeControlLimit && Mathf.Abs(lastMousePosX - firstMousePosX) < swipeControlLimit / 2) // B
             {
                 StartCoroutine(DlayAndEnabledSwipe());
                 MoveB();
-                Debug.Log("B");
             }     
         }
         else if (Input.GetMouseButton(0) && isEnableForSwipe && LevelPlatformCount == 4)
@@ -136,25 +129,21 @@ public class PlayerController : MonoBehaviour
             {
                 StartCoroutine(DlayAndEnabledSwipe());
                 MoveT();
-                Debug.Log("T");
             }
             else if ((lastMousePosY - firstMousePosY) < -swipeControlLimit && Mathf.Abs(lastMousePosX - firstMousePosX) < swipeControlLimit) // B
             {
                 StartCoroutine(DlayAndEnabledSwipe());
                 MoveB();
-                Debug.Log("B");
             }
             else if (Mathf.Abs(lastMousePosY - firstMousePosY) < swipeControlLimit && (lastMousePosX - firstMousePosX) > swipeControlLimit ) // R
             {
                 StartCoroutine(DlayAndEnabledSwipe());
                 MoveR();
-                Debug.Log("R");
             }
             else if (Mathf.Abs(lastMousePosY - firstMousePosY) < swipeControlLimit && (lastMousePosX - firstMousePosX) < -swipeControlLimit) // L
             {
                 StartCoroutine(DlayAndEnabledSwipe());
                 MoveL();
-                Debug.Log("L");
             }
         }
         else if (Input.GetMouseButton(0) && isEnableForSwipe && LevelPlatformCount == 2)
@@ -166,14 +155,12 @@ public class PlayerController : MonoBehaviour
             {
                 StartCoroutine(DlayAndEnabledSwipe());
                 MoveT();
-                Debug.Log("T");
             }
             else if ((lastMousePosY - firstMousePosY) < -swipeControlLimit) // B
             {
                 
                 StartCoroutine(DlayAndEnabledSwipe());
                 MoveB();
-                Debug.Log("B");
             }
         }
 
@@ -308,13 +295,15 @@ public class PlayerController : MonoBehaviour
         else if (other.CompareTag("finish"))
         {
             other.GetComponent<Collider>().enabled = false;
-            GameController.instance.isContinue = false;
             MoveB();
             // GetComponent<Collider>().enabled = false;
         }
         else if (other.CompareTag("dance"))
 		{
-            
+            GameController.instance.isContinue = false;
+            isEnableForSwipe = false;
+            DanceAnim();
+            UIController.instance.ActivateWinScreen();
 		}
         //else if (other.CompareTag("finalx"))
         //{
@@ -353,7 +342,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void StartingEvents()
     {
-    
+        IdleAnim();
         transform.parent.transform.rotation = Quaternion.Euler(0, 0, 0);
         transform.parent.transform.position = Vector3.zero;
         transform.position = new(0, 0f, 0);
@@ -362,12 +351,13 @@ public class PlayerController : MonoBehaviour
         GameController.instance.score = 0;
         transform.position = new Vector3(0, transform.position.y, 0);
         GetComponent<Collider>().enabled = true;
-        isEnableForSwipe = true;
+        
     }
 
-    public void PreStartingEvents()
+    public void PostStartingEvents()
     {
         RunAnim();
+        isEnableForSwipe = true;
         GameController.instance.isContinue = true;
     }
 
