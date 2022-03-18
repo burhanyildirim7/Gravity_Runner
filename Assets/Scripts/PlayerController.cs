@@ -30,11 +30,13 @@ public class PlayerController : MonoBehaviour
     public GameObject controlAnimationPanel, leftContolPanel, rightControlPanel, slideControlPanel;
     private bool isFirstLevel;
     public int LevelPlatformCount = 6;
-    public Animator PlayerAnimator;
+    [HideInInspector]public Animator PlayerAnimator;
+    public GameObject playerModel1, playerModel2;
 
 
     void Start()
     {
+        ChangePlayerModel();
         if (PlayerPrefs.GetInt("level") == 0) isFirstLevel = true;
         StartingEvents();
         DOTween.Init();
@@ -295,7 +297,7 @@ public class PlayerController : MonoBehaviour
         else if (other.CompareTag("finish"))
         {
             other.GetComponent<Collider>().enabled = false;
-            MoveB();
+            if(transform.position.y != 0)MoveB();
             // GetComponent<Collider>().enabled = false;
         }
         else if (other.CompareTag("dance"))
@@ -305,32 +307,7 @@ public class PlayerController : MonoBehaviour
             DanceAnim();
             UIController.instance.ActivateWinScreen();
 		}
-        //else if (other.CompareTag("finalx"))
-        //{
-        //    FinalEffectEvents(other.gameObject);
-        //}
-        //else if (isFirstLevel && other.CompareTag("control1"))
-        //{
-        //    controlAnimationPanel.SetActive(true);
-        //    rightControlPanel.SetActive(true);
-        //    //KarakterPaketiMovement.instance._speed = 2;
-        //    GetComponentInChildren<Animator>().speed = .15f;
-        //}
-        //else if (isFirstLevel && other.CompareTag("control2"))
-        //{
-        //    controlAnimationPanel.SetActive(true);
-        //    leftContolPanel.SetActive(true);
-        //   // KarakterPaketiMovement.instance._speed = 2;
-        //    GetComponentInChildren<Animator>().speed = .15f;
-        //}
-        //else if (isFirstLevel && other.CompareTag("control3"))
-        //{
-        //    controlAnimationPanel.SetActive(true);
-        //    slideControlPanel.SetActive(true);
-        //   // KarakterPaketiMovement.instance._speed = 2;
-        //    GetComponentInChildren<Animator>().speed = .15f;
 
-        //}
 
     }
 
@@ -342,6 +319,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void StartingEvents()
     {
+        ChangePlayerModel();
         IdleAnim();
         transform.parent.transform.rotation = Quaternion.Euler(0, 0, 0);
         transform.parent.transform.position = Vector3.zero;
@@ -361,7 +339,23 @@ public class PlayerController : MonoBehaviour
         GameController.instance.isContinue = true;
     }
 
- 
+    public void ChangePlayerModel()
+	{
+        if(LevelController.instance.totalLevelNo %2 == 0)
+		{
+            playerModel1.SetActive(true);
+            playerModel2.SetActive(false);
+            PlayerAnimator = playerModel1.GetComponent<Animator>();
+		}
+		else
+		{
+            playerModel1.SetActive(false);
+            playerModel2.SetActive(true);
+            PlayerAnimator = playerModel2.GetComponent<Animator>();
+        }
+	}
+
+
 
     #region ANIMATIONS .....
 

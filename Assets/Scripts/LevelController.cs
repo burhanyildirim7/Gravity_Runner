@@ -60,6 +60,7 @@ public class LevelController : MonoBehaviour
 		PlayerController.instance.LevelPlatformCount = levelPlatformCounts[levelNo-1];
 		currentLevelObj = Instantiate(levels[levelNo - 1], Vector3.zero, Quaternion.identity);
 		Elephant.LevelStarted(totalLevelNo);
+		PlayerController.instance.StartingEvents();
 
 	}
 
@@ -72,7 +73,7 @@ public class LevelController : MonoBehaviour
 		Destroy(currentLevelObj);
 		IncreaseLevelNo();
 		LevelStartingEvents();
-		PlayerController.instance.StartingEvents();		
+	
 	}
 
 	/// <summary>
@@ -81,7 +82,7 @@ public class LevelController : MonoBehaviour
 	public void RestartLevelEvents()
 	{
 		Elephant.LevelFailed(totalLevelNo);
-		PlayerController.instance.StartingEvents();
+		
 		Destroy(currentLevelObj);
 		LevelStartingEvents();
 	}
