@@ -19,7 +19,8 @@ public class PlayerController : MonoBehaviour
 	public int collectibleDegeri;
     public bool xVarMi = true;
     public bool collectibleVarMi = true;
-    private bool left, right, isEnableForSwipe;
+    private bool isEnableForSwipe;
+    private bool onBoarding;
     [SerializeField] private float skateSpeed = 5.0f;
     [SerializeField] private float swipeControlLimit;
     [SerializeField] private float playerSwipeSpeed;
@@ -27,8 +28,7 @@ public class PlayerController : MonoBehaviour
     private float screenWidth, screenHeight;
     private float lastMousePosX, firstMousePosX, lastMousePosY, firstMousePosY;
     public GameObject model, cameraTarget;
-    public GameObject controlAnimationPanel, leftContolPanel, rightControlPanel, slideControlPanel;
-    private bool isFirstLevel;
+    public GameObject level1OnBoard, level21OnBoard, level22OnBoard, level31OnBoard, level32OnBoard, level33OnBoard;
     public int LevelPlatformCount = 6;
     [HideInInspector]public Animator PlayerAnimator;
     public GameObject playerModel1, playerModel2;
@@ -41,7 +41,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         ChangePlayerModel();
-        if (PlayerPrefs.GetInt("level") == 0) isFirstLevel = true;
+        if (PlayerPrefs.GetInt("level") < 4) isEnableForSwipe = false;
         StartingEvents();
         DOTween.Init();
         screenWidth = Screen.width / 2;
@@ -182,6 +182,7 @@ public class PlayerController : MonoBehaviour
     {
         if (playerModel1.activeInHierarchy) Instantiate(tozEfekti, playerModel1Ayak.transform.position, Quaternion.identity);
         else if (playerModel2.activeInHierarchy) Instantiate(tozEfekti, playerModel2Ayak.transform.position, Quaternion.identity);
+        if (onBoarding) DeactivateOnboarding();
         yield return new WaitForSeconds(.5f);
         isEnableForSwipe = true;
     }
@@ -291,7 +292,7 @@ public class PlayerController : MonoBehaviour
         {
             // ENGELELRE CARPINCA YAPILACAKLAR....
             MoreMountains.NiceVibrations.MMVibrationManager.Haptic(MoreMountains.NiceVibrations.HapticTypes.MediumImpact);
-            if(levelCoinCount> 5)
+            if(levelCoinCount>= 5)
 			{
                 levelCoinCount -= 5;
                 CoinCrashEffects();
@@ -327,10 +328,73 @@ public class PlayerController : MonoBehaviour
             isEnableForSwipe = false;
             DanceAnim();
             UIController.instance.ActivateWinScreen();
+            GameController.instance.ScoreCarp(1);
 		}
+        else if (other.CompareTag("onboarding1") && PlayerPrefs.GetInt("level") < 4)
+		{
+            KarakterPaketiMovement.instance._speed = 2;
+            PlayerAnimator.speed = .2f;
+            level1OnBoard.SetActive(true);
+            isEnableForSwipe = true;
+            onBoarding = true;
+        }
+        else if (other.CompareTag("onboarding2") && PlayerPrefs.GetInt("level") < 4)
+        {
+            KarakterPaketiMovement.instance._speed = 2;
+            PlayerAnimator.speed = .2f;
+            level21OnBoard.SetActive(true);
+            isEnableForSwipe = true;
+            onBoarding = true;
+        }
+        else if (other.CompareTag("onboarding3") && PlayerPrefs.GetInt("level") < 4)
+        {
+            KarakterPaketiMovement.instance._speed = 2;
+            PlayerAnimator.speed = .2f;
+            level22OnBoard.SetActive(true);
+            isEnableForSwipe = true;
+            onBoarding = true;
+        }
+        else if (other.CompareTag("onboarding4") && PlayerPrefs.GetInt("level") < 4)
+        {
+            KarakterPaketiMovement.instance._speed = 2;
+            PlayerAnimator.speed = .2f;
+            level31OnBoard.SetActive(true);
+            isEnableForSwipe = true;
+            onBoarding = true;
+        }
+        else if (other.CompareTag("onboarding5") && PlayerPrefs.GetInt("level") < 4)
+        {
+            KarakterPaketiMovement.instance._speed = 2;
+            PlayerAnimator.speed = .2f;
+            level32OnBoard.SetActive(true);
+            isEnableForSwipe = true;
+            onBoarding = true;
+        }
+        else if (other.CompareTag("onboarding6") && PlayerPrefs.GetInt("level") < 4)
+        {
+            KarakterPaketiMovement.instance._speed = 2;
+            PlayerAnimator.speed = .2f;
+            level33OnBoard.SetActive(true);
+            isEnableForSwipe = true;
+            onBoarding = true;
+        }
 
 
     }
+
+    void DeactivateOnboarding()
+	{
+        KarakterPaketiMovement.instance._speed = 15;
+        PlayerAnimator.speed = 1f;
+        isEnableForSwipe = false;
+        onBoarding = false;
+        level1OnBoard.SetActive(false);
+        level21OnBoard.SetActive(false);
+        level22OnBoard.SetActive(false);
+        level31OnBoard.SetActive(false);
+        level32OnBoard.SetActive(false);
+        level33OnBoard.SetActive(false);
+	}
 
     void CoinCrashEffects()
 	{

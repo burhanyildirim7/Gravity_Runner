@@ -47,7 +47,7 @@ public class GameController : MonoBehaviour
         elmas += eklenecekElmas;
         // buradaki elmas artýnca totalScore da otomatik olarak artacak.. bu sebeple asagidaki kodlar eklendi.
         PlayerPrefs.SetInt("totalElmas", PlayerPrefs.GetInt("totalElmas" + eklenecekElmas));
-       // UIController.instance.SetTotalElmasText(); // totalElmaslarýn yazili oldugu texti
+        UIController.instance.SetTotalElmasText(); // totalElmaslarýn yazili oldugu texti
     }
 
 

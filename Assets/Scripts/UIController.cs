@@ -222,7 +222,7 @@ public class UIController : MonoBehaviour
 		WinPanel.SetActive(false);
 		LoosePanel.SetActive(false);
 		GamePanel.SetActive(false);
-		tapToStartScoreText.text = PlayerPrefs.GetInt("total").ToString();
+		tapToStartScoreText.text = PlayerPrefs.GetInt("totalScore").ToString();
 	}
 
 	

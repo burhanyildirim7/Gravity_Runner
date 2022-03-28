@@ -4,11 +4,15 @@ using UnityEngine;
 
 public class KarakterPaketiMovement : MonoBehaviour
 {
-    [SerializeField] private float _speed;
+    public float _speed;
 
-    void Start()
+    public static KarakterPaketiMovement instance; // Singleton yapisi icin gerekli ornek
+
+    // singleton yapisi burada kuruluyor.
+    private void Awake()
     {
-     
+        if (instance == null) instance = this;
+        //else Destroy(this);
     }
 
 
@@ -17,10 +21,6 @@ public class KarakterPaketiMovement : MonoBehaviour
         if (GameController.instance.isContinue == true)
         {
             transform.Translate(Vector3.forward * Time.deltaTime * _speed);
-        }
-        else
-        {
-
         }
         
     }

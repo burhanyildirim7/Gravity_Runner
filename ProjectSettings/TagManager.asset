@@ -12,6 +12,12 @@ TagManager:
   - collectible
   - elmas
   - dance
+  - onboarding1
+  - onboarding2
+  - onboarding3
+  - onboarding4
+  - onboarding5
+  - onboarding6
   layers:
   - Default
   - TransparentFX
