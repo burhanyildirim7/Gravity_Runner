@@ -32,6 +32,10 @@ public class PlayerController : MonoBehaviour
     public int LevelPlatformCount = 6;
     [HideInInspector]public Animator PlayerAnimator;
     public GameObject playerModel1, playerModel2;
+    public GameObject coinPrefab, coinTarget;
+    public GameObject tozEfekti, playerModel1Ayak,playerModel2Ayak;
+    public GameObject coinEfekti;
+    private int levelCoinCount;
 
 
     void Start()
@@ -175,7 +179,9 @@ public class PlayerController : MonoBehaviour
     }
 
     IEnumerator DlayAndEnabledSwipe()
-    {     
+    {
+        if (playerModel1.activeInHierarchy) Instantiate(tozEfekti, playerModel1Ayak.transform.position, Quaternion.identity);
+        else if (playerModel2.activeInHierarchy) Instantiate(tozEfekti, playerModel2Ayak.transform.position, Quaternion.identity);
         yield return new WaitForSeconds(.5f);
         isEnableForSwipe = true;
     }
@@ -268,8 +274,15 @@ public class PlayerController : MonoBehaviour
         if (other.CompareTag("collectible"))
         {
             // COLLECTIBLE CARPINCA YAPILACAKLAR...
+            levelCoinCount++;
             MoreMountains.NiceVibrations.MMVibrationManager.Haptic(MoreMountains.NiceVibrations.HapticTypes.MediumImpact);
-            Destroy(other.gameObject);;
+            if (playerModel1.activeInHierarchy) Instantiate(coinEfekti, playerModel1Ayak.transform.position, Quaternion.identity);
+            else if (playerModel2.activeInHierarchy) Instantiate(coinEfekti, playerModel2Ayak.transform.position, Quaternion.identity);
+            MoreMountains.NiceVibrations.MMVibrationManager.Haptic(MoreMountains.NiceVibrations.HapticTypes.MediumImpact);
+            Destroy(other.gameObject);
+            GameObject obj = Instantiate(coinPrefab, transform.position, Quaternion.Euler(new Vector3(90,0,0)));
+            obj.transform.DOMove(coinTarget.transform.position,.5f).OnComplete(()=> { Destroy(obj); });
+            obj.transform.DOScale(Vector3.one * .2f, .48f);
             GameController.instance.SetScore(collectibleDegeri); // ORNEK KULLANIM detaylar icin ctrl+click yapip fonksiyon aciklamasini oku
            // GameObject arti = Instantiate(artiBir, new Vector3(model.transform.position.x, model.transform.position.y + 5, model.transform.position.z), Quaternion.identity, model.transform);
            
@@ -278,7 +291,15 @@ public class PlayerController : MonoBehaviour
         {
             // ENGELELRE CARPINCA YAPILACAKLAR....
             MoreMountains.NiceVibrations.MMVibrationManager.Haptic(MoreMountains.NiceVibrations.HapticTypes.MediumImpact);
-
+            if(levelCoinCount> 5)
+			{
+                levelCoinCount -= 5;
+                CoinCrashEffects();
+			}
+            else if(levelCoinCount < 5)
+			{
+                GameOverEvents();
+			}
            // GameObject eksi = Instantiate(eksiBir, new Vector3(model.transform.position.x, model.transform.position.y + 3, model.transform.position.z), Quaternion.identity, model.transform);
     
             GameController.instance.SetScore(-collectibleDegeri); // ORNEK KULLANIM detaylar icin ctrl+click yapip fonksiyon aciklamasini oku
@@ -311,8 +332,25 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    void CoinCrashEffects()
+	{
+		for (int i = 0; i < 5; i++)
+		{
+            GameObject coin = Instantiate(coinPrefab, transform.position, Quaternion.Euler(90,0,0));
+            coin.transform.localScale = new Vector3(40,40,40);
+            float x = Random.Range(-2,2);
+            float z = Random.Range(-1,2);
+            if (playerModel1.activeInHierarchy)coin.transform.DOJump(new Vector3(playerModel1Ayak.transform.position.x + x,playerModel1Ayak.transform.position.y, playerModel1Ayak.transform.position.z +z), 1, 1, .7f).SetEase(Ease.OutBounce).OnComplete(() => { Destroy(coin); });
+            else if (playerModel2.activeInHierarchy) coin.transform.DOJump(new Vector3(playerModel2Ayak.transform.position.x + x, playerModel2Ayak.transform.position.y, playerModel2Ayak.transform.position.z + z), 1, 1, .7f).SetEase(Ease.OutBounce).OnComplete(() => { Destroy(coin); });
+        }    
+	}
 
-  
+    void GameOverEvents()
+	{
+        GameController.instance.isContinue = false;
+        IdleAnim();
+        UIController.instance.ActivateLooseScreen();
+	}
 
     /// <summary>
     /// Bu fonksiyon her level baslarken cagrilir. 
@@ -334,6 +372,7 @@ public class PlayerController : MonoBehaviour
 
     public void PostStartingEvents()
     {
+        levelCoinCount = 0;
         RunAnim();
         isEnableForSwipe = true;
         GameController.instance.isContinue = true;
@@ -386,7 +425,7 @@ public class PlayerController : MonoBehaviour
 
     private void CrashAnim()
     {
-        PlayerAnimator.SetTrigger("struggle");
+        PlayerAnimator.SetTrigger("strumble");
         StartCoroutine(DelayAndResetAnims());
     }
 
@@ -410,7 +449,7 @@ public class PlayerController : MonoBehaviour
         PlayerAnimator.ResetTrigger("jump");
         PlayerAnimator.ResetTrigger("run");
         //GetComponentInChildren<Animator>().ResetTrigger("slide");
-        //GetComponentInChildren<Animator>().ResetTrigger("struggle");
+        GetComponentInChildren<Animator>().ResetTrigger("strumble");
         //GetComponentInChildren<Animator>().ResetTrigger("ropejump");
         //GetComponentInChildren<Animator>().ResetTrigger("ropepos");
         //GetComponentInChildren<Animator>().ResetTrigger("throw");
