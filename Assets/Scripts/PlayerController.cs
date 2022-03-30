@@ -319,6 +319,7 @@ public class PlayerController : MonoBehaviour
         else if (other.CompareTag("finish"))
         {
             other.GetComponent<Collider>().enabled = false;
+            isEnableForSwipe = false;
             if (transform.position.y != 0) MoveB();
             // GetComponent<Collider>().enabled = false;
         }
