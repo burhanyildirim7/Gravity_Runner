@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: ZeminMat 7
+  m_Name: ZeminMat 8
   m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: _EMISSION
   m_LightmapFlags: 2
@@ -36,12 +36,12 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
-        m_Texture: {fileID: 2800000, guid: 4cde12013034c488c929565a9626d5f7, type: 3}
-        m_Scale: {x: 1, y: 60}
+        m_Texture: {fileID: 2800000, guid: 97b06bf0450964254a97f4a42fa31351, type: 3}
+        m_Scale: {x: 1, y: 10}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 4cde12013034c488c929565a9626d5f7, type: 3}
-        m_Scale: {x: 1, y: 60}
+        m_Texture: {fileID: 2800000, guid: 97b06bf0450964254a97f4a42fa31351, type: 3}
+        m_Scale: {x: 1, y: 10}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
@@ -74,6 +74,6 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 1, g: 0.504717, b: 0.9813266, a: 1}
-    - _EmissionColor: {r: 1, g: 0.5058824, b: 0.8901961, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 0.2509804, g: 0.2509804, b: 0.2509804, a: 1}
   m_BuildTextureStacks: []
