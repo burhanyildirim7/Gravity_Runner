@@ -81,9 +81,11 @@ public class LevelController : MonoBehaviour
 	/// </summary>
 	public void RestartLevelEvents()
 	{
-		Elephant.LevelFailed(totalLevelNo);
-		
+		Elephant.LevelFailed(totalLevelNo);		
 		Destroy(currentLevelObj);
-		LevelStartingEvents();
+		UIController.instance.SetLevelText(totalLevelNo);
+		PlayerController.instance.LevelPlatformCount = levelPlatformCounts[levelNo - 1];
+		currentLevelObj = Instantiate(levels[levelNo - 1], Vector3.zero, Quaternion.identity);
+		PlayerController.instance.StartingEvents();
 	}
 }
